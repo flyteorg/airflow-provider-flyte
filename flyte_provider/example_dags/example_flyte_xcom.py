@@ -27,6 +27,7 @@ with DAG(
         inputs={"val": 19},
     )
 
+    # wait for the execution to complete
     flyte_execution_wait = FlyteSensor(
         task_id="flyte_sensor",
         execution_name=flyte_execution_start.output,
