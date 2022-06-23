@@ -1,2 +1,2 @@
 flytekit
-airflow
+apache-airflow
