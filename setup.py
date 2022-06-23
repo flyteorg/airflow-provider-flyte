@@ -1,12 +1,14 @@
 from setuptools import setup
 
+__version__ = "0.0.0+develop"
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 """Perform the package airflow-provider-flyte setup."""
 setup(
     name="airflow-provider-flyte",
-    version="0.0.1",
+    version=__version__,
     description="Flyte Airflow Provider",
     long_description=long_description,
     long_description_content_type="text/markdown",

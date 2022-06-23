@@ -21,7 +21,6 @@ class TestFlyteOperator(unittest.TestCase):
     domain = "development"
     launchplan_name = "core.basic.hello_world.my_wf"
     raw_output_data_config = "s3://flyte-demo/raw_data"
-    assumable_iam_role = "arn:aws:iam::123456789012:role/example-role"
     kubernetes_service_account = "default"
     labels = {"key1": "value1"}
     version = "v1"
@@ -56,7 +55,6 @@ class TestFlyteOperator(unittest.TestCase):
             domain=self.domain,
             launchplan_name=self.launchplan_name,
             raw_output_data_config=self.raw_output_data_config,
-            assumable_iam_role=self.assumable_iam_role,
             kubernetes_service_account=self.kubernetes_service_account,
             labels=self.labels,
             version=self.version,
@@ -76,7 +74,6 @@ class TestFlyteOperator(unittest.TestCase):
             task_name=None,
             max_parallelism=None,
             raw_output_data_config=self.raw_output_data_config,
-            assumable_iam_role=self.assumable_iam_role,
             kubernetes_service_account=self.kubernetes_service_account,
             oauth2_client=self.oauth2_client,
             labels=self.labels,

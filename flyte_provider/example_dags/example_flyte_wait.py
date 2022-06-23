@@ -21,7 +21,6 @@ with DAG(
         launchplan_name="core.basic.lp.my_wf",
         max_parallelism=2,
         raw_data_prefix="s3://flyte-demo/raw_data",
-        assumable_iam_role="default",
         kubernetes_service_account="demo",
         version="v1",
         inputs={"val": 19},

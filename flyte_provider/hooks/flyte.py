@@ -2,7 +2,15 @@ from typing import Any, Dict, List, Optional
 
 from airflow.exceptions import AirflowException
 from airflow.hooks.base import BaseHook
-from flytekit.configuration import Config, PlatformConfig
+from flytekit.configuration import (
+    Config,
+    DataConfig,
+    GCSConfig,
+    PlatformConfig,
+    S3Config,
+    SecretsConfig,
+    StatsConfig,
+)
 from flytekit.exceptions.user import FlyteEntityNotExistException
 from flytekit.models.common import (
     Annotations,
@@ -35,6 +43,7 @@ class FlyteHook(BaseHook):
 
     flyte_conn_id = "flyte_default"
     conn_type = "flyte"
+    hook_name = "Flyte"
 
     def __init__(
         self,
@@ -62,17 +71,85 @@ class FlyteHook(BaseHook):
                 platform=PlatformConfig(
                     endpoint=":".join([self.flyte_conn.host, self.flyte_conn.port])
                     if (self.flyte_conn.host and self.flyte_conn.port)
-                    else (self.flyte_conn.host or "localhost:30081"),
-                    insecure=self.flyte_conn.extra_dejson.get("insecure", False),
-                    insecure_skip_verify=self.flyte_conn.extra_dejson.get(
-                        "insecure_skip_verify", False
+                    else (self.flyte_conn.host or PlatformConfig.endpoint),
+                    insecure=self.flyte_conn.extra_dejson.get(
+                        "insecure", PlatformConfig.insecure
                     ),
-                    client_id=self.flyte_conn.login or None,
-                    client_credentials_secret=self.flyte_conn.password or None,
-                    command=self.flyte_conn.extra_dejson.get("command", None),
-                    scopes=self.flyte_conn.extra_dejson.get("scopes", None),
-                    auth_mode=self.flyte_conn.extra_dejson.get("auth_mode", "standard"),
-                )
+                    insecure_skip_verify=self.flyte_conn.extra_dejson.get(
+                        "insecure_skip_verify",
+                        PlatformConfig.insecure_skip_verify,
+                    ),
+                    client_id=self.flyte_conn.login or PlatformConfig.client_id,
+                    client_credentials_secret=self.flyte_conn.password
+                    or PlatformConfig.client_credentials_secret,
+                    command=self.flyte_conn.extra_dejson.get(
+                        "command", PlatformConfig.command
+                    ),
+                    scopes=self.flyte_conn.extra_dejson.get(
+                        "scopes", getattr(PlatformConfig, "scopes", [])
+                    ),
+                    auth_mode=self.flyte_conn.extra_dejson.get(
+                        "auth_mode", PlatformConfig.auth_mode
+                    ),
+                ),
+                secrets=SecretsConfig(
+                    env_prefix=self.flyte_conn.extra_dejson.get(
+                        "env_prefix", SecretsConfig.env_prefix
+                    ),
+                    default_dir=self.flyte_conn.extra_dejson.get(
+                        "default_dir", SecretsConfig.default_dir
+                    ),
+                    file_prefix=self.flyte_conn.extra_dejson.get(
+                        "file_prefix", SecretsConfig.file_prefix
+                    ),
+                ),
+                stats=StatsConfig(
+                    host=self.flyte_conn.extra_dejson.get(
+                        "statsd_host", StatsConfig.host
+                    ),
+                    port=self.flyte_conn.extra_dejson.get(
+                        "statsd_port", StatsConfig.port
+                    ),
+                    disabled=self.flyte_conn.extra_dejson.get(
+                        "statsd_disabled", StatsConfig.disabled
+                    ),
+                    disabled_tags=self.flyte_conn.extra_dejson.get(
+                        "statsd_disabled_tags",
+                        StatsConfig.disabled_tags,
+                    ),
+                ),
+                data_config=DataConfig(
+                    s3=S3Config(
+                        enable_debug=self.flyte_conn.extra_dejson.get(
+                            "s3_enable_debug", S3Config.enable_debug
+                        ),
+                        endpoint=self.flyte_conn.extra_dejson.get(
+                            "s3_endpoint", S3Config.endpoint
+                        ),
+                        retries=self.flyte_conn.extra_dejson.get(
+                            "s3_retries", S3Config.retries
+                        ),
+                        backoff=self.flyte_conn.extra_dejson.get(
+                            "s3_backoff", S3Config.backoff
+                        ),
+                        access_key_id=self.flyte_conn.extra_dejson.get(
+                            "s3_access_key_id", S3Config.access_key_id
+                        ),
+                        secret_access_key=self.flyte_conn.extra_dejson.get(
+                            "s3_secret_access_key",
+                            S3Config.secret_access_key,
+                        ),
+                    ),
+                    gcs=GCSConfig(
+                        gsutil_parallelism=self.flyte_conn.extra_dejson.get(
+                            "gsutil_parallelism",
+                            GCSConfig.gsutil_parallelism,
+                        )
+                    ),
+                ),
+                local_sandbox_path=self.flyte_conn.extra_dejson.get(
+                    "local_sandbox_path", Config.local_sandbox_path
+                ),
             ),
         )
         return remote
@@ -84,7 +161,6 @@ class FlyteHook(BaseHook):
         task_name: Optional[str] = None,
         max_parallelism: Optional[int] = None,
         raw_output_data_config: Optional[str] = None,
-        assumable_iam_role: Optional[str] = None,
         kubernetes_service_account: Optional[str] = None,
         oauth2_client: Optional[Dict[str, str]] = None,
         labels: Optional[Dict[str, str]] = None,
@@ -103,7 +179,6 @@ class FlyteHook(BaseHook):
         :param task_name: Optional. The name of the task to trigger.
         :param max_parallelism: Optional. The maximum number of parallel executions to allow.
         :param raw_output_data_config: Optional. Location of offloaded data for things like S3, etc.
-        :param assumable_iam_role: Optional. The assumable IAM role to use.
         :param kubernetes_service_account: Optional. The kubernetes service account to use.
         :param oauth2_client: Optional. The OAuth2 client to use.
         :param labels: Optional. The labels to use.
@@ -146,7 +221,6 @@ class FlyteHook(BaseHook):
                     security_context=SecurityContext(
                         run_as=Identity(
                             k8s_service_account=kubernetes_service_account,
-                            iam_role=assumable_iam_role,
                             oauth2_client=OAuth2Client(
                                 client_id=oauth2_client.get("client_id"),
                                 client_secret=oauth2_client.get("client_secret"),

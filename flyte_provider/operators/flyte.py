@@ -50,7 +50,6 @@ class FlyteOperator(BaseOperator):
     :param task_name: Optional. The name of the task to trigger.
     :param max_parallelism: Optional. The maximum number of parallel executions to allow.
     :param raw_output_data_config: Optional. Location of offloaded data for things like S3, etc.
-    :param assumable_iam_role: Optional. The IAM role to assume.
     :param kubernetes_service_account: Optional. The Kubernetes service account to use.
     :param oauth2_client: Optional. The OAuth2 client to use.
     :param labels: Optional. Custom labels to be applied to the execution resource.
@@ -73,7 +72,6 @@ class FlyteOperator(BaseOperator):
         task_name: Optional[str] = None,
         max_parallelism: Optional[int] = None,
         raw_output_data_config: Optional[str] = None,
-        assumable_iam_role: Optional[str] = None,
         kubernetes_service_account: Optional[str] = None,
         oauth2_client: Optional[Dict[str, str]] = None,
         labels: Dict[str, str] = {},
@@ -95,7 +93,6 @@ class FlyteOperator(BaseOperator):
         self.task_name = task_name
         self.max_parallelism = max_parallelism
         self.raw_output_data_config = raw_output_data_config
-        self.assumable_iam_role = assumable_iam_role
         self.kubernetes_service_account = kubernetes_service_account
         self.oauth2_client = oauth2_client
         self.labels = labels
@@ -231,7 +228,6 @@ class FlyteOperator(BaseOperator):
             task_name=self.task_name,
             max_parallelism=self.max_parallelism,
             raw_output_data_config=self.raw_output_data_config,
-            assumable_iam_role=self.assumable_iam_role,
             kubernetes_service_account=self.kubernetes_service_account,
             oauth2_client=self.oauth2_client,
             labels=self.labels,

@@ -21,7 +21,6 @@ with DAG(
         project="flytesnacks",
         domain="development",
         launchplan_name="core.basic.lp.my_wf",
-        assumable_iam_role="default",
         kubernetes_service_account="demo",
         version="v1",
         inputs={"val": 19},

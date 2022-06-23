@@ -23,7 +23,6 @@ class TestFlyteHook(unittest.TestCase):
     launchplan_name = "core.basic.hello_world.my_wf"
     task_name = "core.basic.hello_world.say_hello"
     raw_output_data_config = "s3://flyte-demo/raw_data"
-    assumable_iam_role = "arn:aws:iam::123456789012:role/example-role"
     kubernetes_service_account = "default"
     version = "v1"
     inputs = {"name": "hello world"}
@@ -71,7 +70,6 @@ class TestFlyteHook(unittest.TestCase):
         test_hook.trigger_execution(
             launchplan_name=self.launchplan_name,
             raw_output_data_config=self.raw_output_data_config,
-            assumable_iam_role=self.assumable_iam_role,
             kubernetes_service_account=self.kubernetes_service_account,
             version=self.version,
             inputs=self.inputs,
@@ -101,7 +99,6 @@ class TestFlyteHook(unittest.TestCase):
         test_hook.trigger_execution(
             task_name=self.task_name,
             raw_output_data_config=self.raw_output_data_config,
-            assumable_iam_role=self.assumable_iam_role,
             kubernetes_service_account=self.kubernetes_service_account,
             version=self.version,
             inputs=self.inputs,
@@ -132,7 +129,6 @@ class TestFlyteHook(unittest.TestCase):
             test_hook.trigger_execution(
                 launchplan_name=self.launchplan_name,
                 raw_output_data_config=self.raw_output_data_config,
-                assumable_iam_role=self.assumable_iam_role,
                 kubernetes_service_account=self.kubernetes_service_account,
                 version=self.version,
                 inputs=self.inputs,
@@ -162,7 +158,6 @@ class TestFlyteHook(unittest.TestCase):
             test_hook.trigger_execution(
                 launchplan_name=self.launchplan_name,
                 raw_output_data_config=self.raw_output_data_config,
-                assumable_iam_role=self.assumable_iam_role,
                 kubernetes_service_account=self.kubernetes_service_account,
                 version=self.version,
                 inputs=self.inputs,
