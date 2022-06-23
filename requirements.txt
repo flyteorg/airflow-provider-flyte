@@ -1,3 +1,4 @@
 flytekit
 apache-airflow
 pre-commit
+pytest
