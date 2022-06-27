@@ -69,7 +69,7 @@ class FlyteHook(BaseHook):
         remote = FlyteRemote(
             config=Config(
                 platform=PlatformConfig(
-                    endpoint=":".join([self.flyte_conn.host, self.flyte_conn.port])
+                    endpoint=":".join([self.flyte_conn.host, str(self.flyte_conn.port)])
                     if (self.flyte_conn.host and self.flyte_conn.port)
                     else (self.flyte_conn.host or PlatformConfig.endpoint),
                     insecure=self.flyte_conn.extra_dejson.get(
