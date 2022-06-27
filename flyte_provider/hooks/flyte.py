@@ -41,13 +41,14 @@ class FlyteHook(BaseHook):
     TIMED_OUT = core_execution_models.WorkflowExecutionPhase.TIMED_OUT
     ABORTED = core_execution_models.WorkflowExecutionPhase.ABORTED
 
-    flyte_conn_id = "flyte_default"
+    conn_name_attr = "flyte_conn_id"
+    default_conn_name = "flyte_default"
     conn_type = "flyte"
     hook_name = "Flyte"
 
     def __init__(
         self,
-        flyte_conn_id: str = flyte_conn_id,
+        flyte_conn_id: str = "flyte_default",
         project: Optional[str] = None,
         domain: Optional[str] = None,
     ) -> None:

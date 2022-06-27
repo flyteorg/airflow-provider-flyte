@@ -8,5 +8,5 @@ def get_provider_info() -> Dict[str, Any]:
         "description": "A Flyte provider for Apache Airflow.",
         "hook-class-names": ["flyte_provider.hooks.flyte.FlyteHook"],
         "extra-links": ["flyte_provider.operators.flyte.RegistryLink"],
-        "versions": ["0.0.1"],
+        "versions": ["0.0.2"],
     }
