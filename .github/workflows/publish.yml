@@ -27,6 +27,7 @@ jobs:
           PLACEHOLDER="__version__\ =\ \"0.0.0+develop\""
           grep "$PLACEHOLDER" "setup.py"
           sed -i "s#$PLACEHOLDER#__version__ = \"$VERSION\"#g" "setup.py"
+        shell: bash
       - name: Build and publish
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
