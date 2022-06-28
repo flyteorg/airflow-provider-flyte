@@ -47,7 +47,7 @@ In the Airflow UI, configure a _Connection_ for Flyte.
 
 ## Modules
 
-### [Flyte Operator](https://github.com/flyteorg/airflow-provider-flyte/blob/main/flyte_provider/operators/flyte.py)
+### [Flyte Operator](https://github.com/flyteorg/airflow-provider-flyte/blob/master/flyte_provider/operators/flyte.py)
 
 The `FlyteOperator` requires a `flyte_conn_id` to fetch all the connection-related
 parameters that are useful to instantiate `FlyteRemote`. Also, you must give a
@@ -62,7 +62,7 @@ Import into your DAG via:
 from flyte_provider.operators.flyte import FlyteOperator
 ```
 
-### [Flyte Sensor](https://github.com/flyteorg/airflow-provider-flyte/blob/main/flyte_provider/sensors/flyte.py)
+### [Flyte Sensor](https://github.com/flyteorg/airflow-provider-flyte/blob/master/flyte_provider/sensors/flyte.py)
 
 If you need to wait for an execution to complete, use `FlyteSensor`.
 Monitoring with `FlyteSensor` allows you to trigger downstream processes only when the Flyte executions are complete.
@@ -75,7 +75,7 @@ from flyte_provider.sensors.flyte import FlyteSensor
 
 ## Examples
 
-See the [examples](https://github.com/flyte/airflow-provider-flyte/tree/main/flyte_provider/example_dags) directory for an example DAG.
+See the [examples](https://github.com/flyteorg/airflow-provider-flyte/tree/master/flyte_provider/example_dags) directory for an example DAG.
 
 ## Issues
 
