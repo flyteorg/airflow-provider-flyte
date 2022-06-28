@@ -16,7 +16,7 @@ pip install airflow-provider-flyte
 
 In the Airflow UI, configure a _Connection_ for Flyte.
 
-- Host(optional): The FlyteAdmin host. Defaults to localhost.
+- Host (required): The FlyteAdmin host.
 - Port (optional): The FlyteAdmin port. Defaults to 30081.
 - Login (optional): `client_id`
 - Password (optional): `client_credentials_secret`
@@ -35,14 +35,14 @@ In the Airflow UI, configure a _Connection_ for Flyte.
   - `statsd_disabled`: Whether to send statsd or not.
   - `statsd_disabled_tags`: Turn on to reduce cardinality.
   - `local_sandbox_path`
-  - S3 Config:
+  - S3 Config (optional):
     - `s3_enable_debug`
     - `s3_endpoint`
     - `s3_retries`
     - `s3_backoff`
     - `s3_access_key_id`
     - `s3_secret_access_key`
-  - GCS Config:
+  - GCS Config (optional):
     - `gsutil_parallelism`
 
 ## Modules
