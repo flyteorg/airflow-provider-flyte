@@ -61,6 +61,9 @@ class FlyteHook(BaseHook):
         if not (self.project and self.domain):
             raise AirflowException("Please provide a project and domain.")
 
+        if not self.flyte_conn.host:
+            raise AirflowException("Please provide a host.")
+
     def execution_id(self, execution_name: str) -> WorkflowExecutionIdentifier:
         """Get the execution id."""
         return WorkflowExecutionIdentifier(self.project, self.domain, execution_name)
@@ -72,7 +75,7 @@ class FlyteHook(BaseHook):
                 platform=PlatformConfig(
                     endpoint=":".join([self.flyte_conn.host, str(self.flyte_conn.port)])
                     if (self.flyte_conn.host and self.flyte_conn.port)
-                    else (self.flyte_conn.host or PlatformConfig.endpoint),
+                    else (self.flyte_conn.host),
                     insecure=self.flyte_conn.extra_dejson.get(
                         "insecure", PlatformConfig.insecure
                     ),
