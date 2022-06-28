@@ -17,7 +17,7 @@ pip install airflow-provider-flyte
 In the Airflow UI, configure a _Connection_ for Flyte.
 
 - Host (required): The FlyteAdmin host.
-- Port (optional): The FlyteAdmin port. Defaults to 30081.
+- Port (optional): The FlyteAdmin port.
 - Login (optional): `client_id`
 - Password (optional): `client_credentials_secret`
 - Extra (optional): Specify the `extra` parameter as JSON dictionary to provide additional parameters.
