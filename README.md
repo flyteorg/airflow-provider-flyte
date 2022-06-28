@@ -35,14 +35,14 @@ In the Airflow UI, configure a _Connection_ for Flyte.
   - `statsd_disabled`: Whether to send statsd or not.
   - `statsd_disabled_tags`: Turn on to reduce cardinality.
   - `local_sandbox_path`
-  - S3 Config (optional):
+  - S3 Config:
     - `s3_enable_debug`
     - `s3_endpoint`
     - `s3_retries`
     - `s3_backoff`
     - `s3_access_key_id`
     - `s3_secret_access_key`
-  - GCS Config (optional):
+  - GCS Config:
     - `gsutil_parallelism`
 
 ## Modules
