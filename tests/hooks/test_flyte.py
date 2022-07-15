@@ -1,5 +1,4 @@
 import unittest
-from datetime import timedelta
 from unittest import mock
 
 import pytest
@@ -15,7 +14,7 @@ from flyte_provider.hooks.flyte import FlyteHook
 class TestFlyteHook(unittest.TestCase):
 
     flyte_conn_id = "flyte_default"
-    execution_name = "flyte20220330t133856"
+    execution_name = "flyt1202203301338565"
     conn_type = "flyte"
     host = "localhost"
     port = "30081"
@@ -26,7 +25,6 @@ class TestFlyteHook(unittest.TestCase):
     kubernetes_service_account = "default"
     version = "v1"
     inputs = {"name": "hello world"}
-    timeout = timedelta(seconds=3600)
     oauth2_client = {"client_id": "123", "client_secret": "456"}
     secrets = [{"group": "secrets", "key": "123"}]
     notifications = [{"phases": [1], "email": {"recipients_email": ["abc@flyte.org"]}}]
