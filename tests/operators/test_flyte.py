@@ -25,7 +25,7 @@ class TestFlyteOperator(unittest.TestCase):
     labels = {"key1": "value1"}
     version = "v1"
     inputs = {"name": "hello world"}
-    execution_name = "test1202203301355087"
+    execution_name = "038d0f1339c4e7700c0a"
     oauth2_client = {"client_id": "123", "client_secret": "456"}
     secrets = [{"group": "secrets", "key": "123"}]
     notifications = [{"phases": [1], "email": {"recipients_email": ["abc@flyte.org"]}}]

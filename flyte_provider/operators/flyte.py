@@ -1,5 +1,5 @@
+import hashlib
 import inspect
-import re
 from dataclasses import fields
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Sequence, Union
 
@@ -210,17 +210,16 @@ class FlyteOperator(BaseOperator):
         """Trigger an execution."""
 
         # create a deterministic execution name
-        task_id = re.sub(r"[\W_]+", "", context["task"].task_id)[:4] + str(
-            context["task_instance"].try_number
+        unhashed_execution_name = (
+            context["task"].dag_id
+            + context["task"].task_id
+            + context["dag_run"].run_id
+            + str(context["task_instance"].try_number)
         )
-        self.execution_name = (
-            task_id
-            + re.sub(
-                r"[\W_t]+",
-                "",
-                context["dag_run"].run_id.split("__")[-1].lower(),
-            )[: (20 - len(task_id))]
-        )
+
+        self.execution_name = hashlib.md5(unhashed_execution_name.encode()).hexdigest()[
+            :20
+        ]
 
         hook = FlyteHook(
             flyte_conn_id=self.flyte_conn_id, project=self.project, domain=self.domain

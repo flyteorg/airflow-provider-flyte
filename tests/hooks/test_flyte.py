@@ -14,7 +14,7 @@ from flyte_provider.hooks.flyte import FlyteHook
 class TestFlyteHook(unittest.TestCase):
 
     flyte_conn_id = "flyte_default"
-    execution_name = "flyt1202203301338565"
+    execution_name = "038d0f1339c4e7700c0a"
     conn_type = "flyte"
     host = "localhost"
     port = "30081"
