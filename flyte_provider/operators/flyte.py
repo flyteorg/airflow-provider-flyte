@@ -210,11 +210,13 @@ class FlyteOperator(BaseOperator):
         """Trigger an execution."""
 
         # create a deterministic execution name
-        task_id = re.sub(r"[\W_]+", "", context["task"].task_id)[:5]
+        task_id = re.sub(r"[\W_]+", "", context["task"].task_id)[:4] + str(
+            context["task_instance"].try_number
+        )
         self.execution_name = (
             task_id
             + re.sub(
-                r"[\W_]+",
+                r"[\W_t]+",
                 "",
                 context["dag_run"].run_id.split("__")[-1].lower(),
             )[: (20 - len(task_id))]

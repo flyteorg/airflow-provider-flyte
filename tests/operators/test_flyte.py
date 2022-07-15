@@ -3,7 +3,7 @@ from unittest import mock
 
 import pytest
 from airflow import AirflowException
-from airflow.models import Connection
+from airflow.models import Connection, TaskInstance
 from airflow.models.dagrun import DagRun
 
 from flyte_provider.operators.flyte import FlyteOperator
@@ -25,7 +25,7 @@ class TestFlyteOperator(unittest.TestCase):
     labels = {"key1": "value1"}
     version = "v1"
     inputs = {"name": "hello world"}
-    execution_name = "testf20220330t135508"
+    execution_name = "test1202203301355087"
     oauth2_client = {"client_id": "123", "client_secret": "456"}
     secrets = [{"group": "secrets", "key": "123"}]
     notifications = [{"phases": [1], "email": {"recipients_email": ["abc@flyte.org"]}}]
@@ -64,7 +64,11 @@ class TestFlyteOperator(unittest.TestCase):
             notifications=self.notifications,
         )
         result = operator.execute(
-            {"dag_run": DagRun(run_id=self.run_id), "task": operator}
+            {
+                "dag_run": DagRun(run_id=self.run_id),
+                "task": operator,
+                "task_instance": TaskInstance(task=operator),
+            }
         )
 
         assert result == self.execution_name
@@ -107,7 +111,13 @@ class TestFlyteOperator(unittest.TestCase):
             secrets=self.secrets,
             notifications=self.notifications,
         )
-        operator.execute({"dag_run": DagRun(run_id=self.run_id), "task": operator})
+        operator.execute(
+            {
+                "dag_run": DagRun(run_id=self.run_id),
+                "task": operator,
+                "task_instance": TaskInstance(task=operator),
+            }
+        )
         operator.on_kill()
 
         mock_get_connection.has_calls([mock.call(self.flyte_conn_id)] * 2)
