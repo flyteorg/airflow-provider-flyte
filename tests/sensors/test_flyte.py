@@ -21,7 +21,7 @@ class TestFlyteSensor(unittest.TestCase):
     port = "30081"
     project = "flytesnacks"
     domain = "development"
-    execution_name = "038d0f1339c4e7700c0a"
+    execution_name = "a038d0f1339c4e7700c0"
 
     @classmethod
     def get_connection(cls):

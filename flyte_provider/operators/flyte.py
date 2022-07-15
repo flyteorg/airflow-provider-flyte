@@ -217,9 +217,9 @@ class FlyteOperator(BaseOperator):
             + str(context["task_instance"].try_number)
         )
 
-        self.execution_name = hashlib.md5(unhashed_execution_name.encode()).hexdigest()[
-            :20
-        ]
+        self.execution_name = (
+            "a" + hashlib.md5(unhashed_execution_name.encode()).hexdigest()[:19]
+        )
 
         hook = FlyteHook(
             flyte_conn_id=self.flyte_conn_id, project=self.project, domain=self.domain
